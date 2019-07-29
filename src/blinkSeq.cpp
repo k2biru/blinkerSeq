@@ -2,6 +2,7 @@
  * BLINKER CLASS DEFINITION
  */
 #include <blinkSeq.h>
+#include <ESP8266WiFi.h>
 
     BlinkerSeq::BlinkerSeq(uint8_t pinLED, bool ledActiveLow) {
     _pinLED = pinLED;
@@ -23,6 +24,10 @@
   void BlinkerSeq::stop(){
       digitalWrite(_pinLED,_ledActiveLow);
       LEDticker.detach();
+  }
+  void BlinkerSeq::alwaysOn(){
+      stop();
+      digitalWrite(_pinLED,!_ledActiveLow);
   }
 
   void BlinkerSeq::tick(){
