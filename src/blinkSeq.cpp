@@ -2,7 +2,6 @@
  * BLINKER CLASS DEFINITION
  */
 #include <blinkSeq.h>
-#include <ESP8266WiFi.h>
 
     BlinkerSeq::BlinkerSeq(uint8_t pinLED, bool ledActiveLow) {
     _pinLED = pinLED;
@@ -12,13 +11,14 @@
     }
    
   void BlinkerSeq::set( uint16_t ledOnMs,uint16_t ledOffMs,uint8_t ledSeq,uint16_t ledOffAfter){
+    if (_ledOnMs==ledOnMs&&_ledOffMs==ledOffMs&&_ledSeq==ledSeq) return;
     _ledOnMs = ledOnMs;
     _ledOffMs = ledOffMs;
     _ledSeq = ledSeq;
     if (ledSeq>1) _ledSeqCounter = ledSeq+1;
     else _ledSeqCounter = ledSeq;
     _ledOffAfter = ledOffAfter;
-    LEDticker.attach_ms(100,std::bind(&BlinkerSeq::tick, this));
+    LEDticker.attach_ms(100,std::bind(&BlinkerSeq::_tick, this));
   }
 
   void BlinkerSeq::stop(){
@@ -30,24 +30,23 @@
       digitalWrite(_pinLED,!_ledActiveLow);
   }
 
-  void BlinkerSeq::tick(){
+  void BlinkerSeq::_tick(){
     if(_ledSeqCounter){
         if (_ledOn){
             digitalWrite(_pinLED, !_ledActiveLow); // On LED
-            LEDticker.attach_ms(_ledOnMs, std::bind(&BlinkerSeq::tick, this));
+            LEDticker.attach_ms(_ledOnMs, std::bind(&BlinkerSeq::_tick, this));
             _ledOn = !_ledOn;
         } else{
             digitalWrite(_pinLED, _ledActiveLow); // Off LED
-            LEDticker.attach_ms(_ledOffMs, std::bind(&BlinkerSeq::tick, this));
+            LEDticker.attach_ms(_ledOffMs, std::bind(&BlinkerSeq::_tick, this));
             _ledOn = !_ledOn;
             _ledSeqCounter--;
             if(!_ledSeqCounter){
-                LEDticker.attach_ms(_ledOffAfter, std::bind(&BlinkerSeq::tick, this));
+                LEDticker.attach_ms(_ledOffAfter, std::bind(&BlinkerSeq::_tick, this));
             }
         }
     }else{
-        //Serial.println("LED interval");
-        LEDticker.attach_ms(1,std::bind(&BlinkerSeq::tick, this));
+        LEDticker.attach_ms(1,std::bind(&BlinkerSeq::_tick, this));
         _ledSeqCounter = _ledSeq;
     }
   }
