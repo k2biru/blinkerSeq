@@ -11,7 +11,7 @@
     }
    
   void BlinkerSeq::set( uint16_t ledOnMs,uint16_t ledOffMs,uint8_t ledSeq,uint16_t ledOffAfter){
-    if (_ledOnMs==ledOnMs&&_ledOffMs==ledOffMs&&_ledSeq==ledSeq) return;
+    if (_ledOnMs==ledOnMs&&_ledOffMs==ledOffMs&&_ledSeq==ledSeq&&_ledOffAfter==ledOffAfter) return;
     _ledOnMs = ledOnMs;
     _ledOffMs = ledOffMs;
     _ledSeq = ledSeq;
