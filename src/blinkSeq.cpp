@@ -28,6 +28,10 @@
   void BlinkerSeq::alwaysOn(){
       stop();
       digitalWrite(_pinLED,!_ledActiveLow);
+      _ledOnMs=0;
+      _ledOffMs=0;
+      _ledSeq=0;
+      _ledOffAfter=0;
   }
 
   void BlinkerSeq::_tick(){
