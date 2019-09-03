@@ -3,6 +3,11 @@
  * Fahrizal Hari Utama
  * Monday Kliwon [2019.07.29]
  */
+#ifndef blinkerSeq_h
+#define blinkerSeq_h
+#if defined(ESP8266)
+
+
 #include <Arduino.h>
 #include <Ticker.h>
 
@@ -26,3 +31,8 @@ class BlinkerSeq {
   void stop();
   void alwaysOn();
 };
+#else
+#error “Unsupported board selected!”
+#error "ESP8266 Only, Sorry"
+#endif
+#endif
