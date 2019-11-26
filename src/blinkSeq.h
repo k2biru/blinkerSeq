@@ -26,7 +26,7 @@ class BlinkerSeq {
   void _tick();
  
   public:
-  BlinkerSeq(uint8_t pinLED, bool _ledActiveLow);
+  BlinkerSeq(uint8_t pinLED, bool _ledActiveLow = false);
   void set( uint16_t ledOnMs,uint16_t ledOffMs,uint8_t ledSeq,uint16_t ledOffAfter);
   void stop();
   void alwaysOn();
