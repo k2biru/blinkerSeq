@@ -22,18 +22,22 @@
   }
 
   void BlinkerSeq::stop(){
-      digitalWrite(_pinLED,_ledActiveLow);
       LEDticker.detach();
+      digitalWrite(_pinLED,_ledActiveLow);
+      _reset();
   }
   void BlinkerSeq::alwaysOn(){
-      stop();
+      LEDticker.detach();
       digitalWrite(_pinLED,!_ledActiveLow);
+      _reset();
+  }
+
+  void BlinkerSeq::_reset(){
       _ledOnMs=0;
       _ledOffMs=0;
       _ledSeq=0;
       _ledOffAfter=0;
   }
-
   void BlinkerSeq::_tick(){
     if(_ledSeqCounter){
         if (_ledOn){

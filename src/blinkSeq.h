@@ -24,6 +24,7 @@ class BlinkerSeq {
   uint8_t _ledSeqCounter;
   uint16_t _ledOffAfter;
   void _tick();
+  void _reset();
  
   public:
   BlinkerSeq(uint8_t pinLED, bool _ledActiveLow = false);
